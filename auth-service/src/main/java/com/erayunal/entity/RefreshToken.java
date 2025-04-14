@@ -2,6 +2,8 @@ package com.erayunal.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 import java.time.Instant;
 
@@ -10,6 +12,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 public class RefreshToken {
 
     @Id

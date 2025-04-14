@@ -6,6 +6,9 @@ security:
     expiration: 900000
 
 spring:
+  sql:
+    init:
+      mode: always
   datasource:
     url: jdbc:postgresql://localhost:5432/auth-service
     username: username
@@ -19,3 +22,6 @@ spring:
     properties:
       hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
       hibernate.format_sql: true
+      org.hibernate:
+        envers.default_schema: audit
+        envers.store_data_at_delete: true
