@@ -10,18 +10,23 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>auth-service</module>
+        <module>discovery-server</module>
+        <module>api-gateway</module>
         <module>common-lib</module>
+
+        <module>auth-service</module>
+        <module>user-service</module>
         <module>product-service</module>
         <module>order-service</module>
         <module>inventory-service</module>
         <module>notification-service</module>
-        <module>api-gateway</module>
     </modules>
 
     <properties>
         <java.version>17</java.version>
+        <apache.maven.plugin.version>3.8.1</apache.maven.plugin.version>
         <spring.boot.version>3.4.4</spring.boot.version>
+        <spring.cloud.version>2023.0.1</spring.cloud.version>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,16 +41,28 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
         <pluginManagement>
             <plugins>
-                <!-- Spring Boot Plugin -->
+                <!-- Apache Maven Plugin -->
                 <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${apache.maven.plugin.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
