@@ -1,9 +1,9 @@
 package com.erayunal.controller;
 
-import com.erayunal.dto.AuthResponse;
 import com.erayunal.dto.LoginRequest;
-import com.erayunal.dto.RegisterRequest;
 import com.erayunal.dto.TokenRefreshRequest;
+import com.erayunal.dto.auth.AuthResponse;
+import com.erayunal.dto.user.UserDTO;
 import com.erayunal.service.AuthService;
 import com.erayunal.service.RefreshTokenService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,8 +23,8 @@ public class AuthController {
     private final RefreshTokenService refreshTokenService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest registerRequest, HttpServletRequest request) {
-        return ResponseEntity.ok(authService.register(registerRequest, request));
+    public ResponseEntity<AuthResponse> register(@RequestBody UserDTO userDTO, HttpServletRequest request) {
+        return ResponseEntity.ok(authService.register(userDTO, request));
     }
 
     @PostMapping("/login")

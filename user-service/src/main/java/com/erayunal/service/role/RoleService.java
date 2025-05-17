@@ -1,6 +1,6 @@
 package com.erayunal.service.role;
 
-import com.erayunal.role.RoleDTO;
+import com.erayunal.dto.role.RoleDTO;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.erayunal.dto;
+package com.erayunal.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

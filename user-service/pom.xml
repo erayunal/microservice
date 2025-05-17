@@ -12,6 +12,13 @@
     <artifactId>user-service</artifactId>
 
     <dependencies>
+
+        <!-- Config -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+
         <!-- Spring Boot Starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -47,7 +54,20 @@
         <dependency>
             <groupId>com.erayunal</groupId>
             <artifactId>common-lib</artifactId>
-            <version>1.0.0</version>
+            <version>${common.lib.version}</version>
+        </dependency>
+
+        <!-- Eureka Client -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+        <!-- Open Feign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

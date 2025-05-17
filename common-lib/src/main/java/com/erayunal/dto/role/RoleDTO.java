@@ -1,4 +1,4 @@
-package com.erayunal.role;
+package com.erayunal.dto.role;
 
 
 import lombok.AllArgsConstructor;

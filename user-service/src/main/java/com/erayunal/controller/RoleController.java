@@ -1,6 +1,6 @@
 package com.erayunal.controller;
 
-import com.erayunal.role.RoleDTO;
+import com.erayunal.dto.role.RoleDTO;
 import com.erayunal.service.role.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

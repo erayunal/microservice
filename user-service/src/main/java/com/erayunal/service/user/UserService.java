@@ -1,16 +1,14 @@
 package com.erayunal.service.user;
 
-import com.erayunal.dto.UserRegisterRequest;
-import com.erayunal.dto.UserRegisterResponse;
-import com.erayunal.user.UserDTO;
+import com.erayunal.dto.user.UserDTO;
 
 import java.util.List;
 
 public interface UserService {
     List<UserDTO> getAllUsers();
     UserDTO getUserById(Long id);
-    UserDTO createUser(UserDTO UserDTO);
-    UserDTO updateUser(Long id, UserDTO UserDTO);
+    UserDTO getUserByUsername(String username);
+    UserDTO updateUser(UserDTO userDTO);
     void deleteUser(Long id);
-    UserRegisterResponse registerUser(UserRegisterRequest request);
+    UserDTO registerUser(UserDTO request);
 }

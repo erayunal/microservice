@@ -1,7 +1,7 @@
 package com.erayunal.mapper;
 
 import com.erayunal.entity.Role;
-import com.erayunal.role.RoleDTO;
+import com.erayunal.dto.role.RoleDTO;
 import org.springframework.stereotype.Component;
 
 @Component

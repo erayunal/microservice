@@ -1,11 +1,9 @@
 package com.erayunal.mapper;
 
+import com.erayunal.dto.user.UserDTO;
 import com.erayunal.entity.User;
-import com.erayunal.user.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -18,10 +16,7 @@ public class UserMapper {
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
         dto.setEmail(user.getEmail());
-        dto.setRoles(user.getRoles()
-                .stream()
-                .map(roleMapper::toDto)
-                .collect(Collectors.toSet()));
+        dto.setPassword(user.getPassword());
         return dto;
     }
 
@@ -30,10 +25,6 @@ public class UserMapper {
         user.setId(dto.getId());
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
-        user.setRoles(dto.getRoles()
-                .stream()
-                .map(roleMapper::toEntity)
-                .collect(Collectors.toSet()));
         return user;
     }
 }

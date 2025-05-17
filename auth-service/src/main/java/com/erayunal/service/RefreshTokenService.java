@@ -1,11 +1,11 @@
 package com.erayunal.service;
 
-import com.erayunal.dto.AuthResponse;
+import com.erayunal.client.user.UserClient;
 import com.erayunal.dto.TokenRefreshRequest;
+import com.erayunal.dto.auth.AuthResponse;
+import com.erayunal.dto.user.UserDTO;
 import com.erayunal.entity.RefreshToken;
-import com.erayunal.entity.User;
 import com.erayunal.repository.RefreshTokenRepository;
-import com.erayunal.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,26 +21,24 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RefreshTokenService {
 
+    private final UserClient userClient;
     @Value("${jwt.refresh-token.expiration-ms:604800000}") // 7 gün default
     private Long refreshTokenDurationMs;
 
     private final RefreshTokenRepository refreshTokenRepository;
-    private final UserRepository userRepository;
     private final JwtService jwtService;
-    private final CustomUserDetailsService userDetailsService;
 
     public RefreshToken createRefreshToken(String username, HttpServletRequest request) {
         String userAgent = request.getHeader("User-Agent");
         String ipAddress = request.getRemoteAddr();
 
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        UserDTO user = userClient.findByUsername(username);
 
         // Aynı kullanıcı + cihazdan gelen token varsa önce onu sil
-        deleteByUserAndClientInfo(user, userAgent, ipAddress);
+        deleteByUserAndClientInfo(username, userAgent, ipAddress);
 
         RefreshToken refreshToken = RefreshToken.builder()
-                .user(user)
+                .username(user.getUsername())
                 .expiryDate(Instant.now().plusMillis(refreshTokenDurationMs))
                 .token(UUID.randomUUID().toString())
                 .userAgent(userAgent)
@@ -55,17 +53,17 @@ public class RefreshTokenService {
     }
 
     @Transactional
-    public void deleteByUser(User user) {
-        refreshTokenRepository.deleteByUser(user);
+    public void deleteByUsername(String username) {
+        refreshTokenRepository.deleteByUsername(username);
     }
 
     public void deleteByToken(String refreshToken) {
         findByToken(refreshToken).ifPresent(refreshTokenRepository::delete);
     }
 
-    public void deleteByUserAndClientInfo(User user, String userAgent, String ipAddress) {
+    public void deleteByUserAndClientInfo(String username, String userAgent, String ipAddress) {
         refreshTokenRepository
-                .findByUserAndUserAgentAndIpAddress(user, userAgent, ipAddress)
+                .findByUsernameAndUserAgentAndIpAddress(username, userAgent, ipAddress)
                 .ifPresent(refreshTokenRepository::delete);
     }
 
@@ -84,11 +82,11 @@ public class RefreshTokenService {
                     // Kullanıldıktan sonra refresh token silinsin
                     refreshTokenRepository.delete(token);
 
-                    var userDetails = userDetailsService.loadUserByUsername(token.getUser().getUsername());
-                    String newAccessToken = jwtService.generateToken(userDetails);
+                    UserDTO userDTO = userClient.findByUsername(token.getUsername());
+                    String newAccessToken = jwtService.generateToken(userDTO);
 
                     // Yeni refresh token oluşturulmalı
-                    RefreshToken newRefreshToken = createRefreshToken(token.getUser().getUsername(), request);
+                    RefreshToken newRefreshToken = createRefreshToken(token.getUsername(), request);
 
                     return ResponseEntity.ok(new AuthResponse(newAccessToken, newRefreshToken.getToken()));
                 })

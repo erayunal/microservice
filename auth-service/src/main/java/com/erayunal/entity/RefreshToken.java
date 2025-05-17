@@ -20,13 +20,14 @@ public class RefreshToken {
     private Long id;
 
     private String token;
+    private String username;
     private String userAgent;
     private String ipAddress;
 
     private Instant expiryDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private User user;
 
 }

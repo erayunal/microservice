@@ -3,7 +3,7 @@ package com.erayunal.service.role;
 import com.erayunal.entity.Role;
 import com.erayunal.mapper.RoleMapper;
 import com.erayunal.repository.RoleRepository;
-import com.erayunal.role.RoleDTO;
+import com.erayunal.dto.role.RoleDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,24 +1,19 @@
 package com.erayunal.service.user;
 
-import com.erayunal.dto.UserRegisterRequest;
-import com.erayunal.dto.UserRegisterResponse;
+import com.erayunal.dto.user.UserDTO;
 import com.erayunal.entity.User;
 import com.erayunal.mapper.UserMapper;
 import com.erayunal.repository.UserRepository;
-import com.erayunal.user.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<UserDTO> getAllUsers() {
@@ -34,18 +29,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO createUser(UserDTO UserDTO) {
-        User user = userMapper.toEntity(UserDTO);
-        return userMapper.toDto(userRepository.save(user));
+    public UserDTO getUserByUsername(String username) {
+        return userMapper.toDto(userRepository.getUserByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found")));
     }
 
     @Override
-    public UserDTO updateUser(Long id, UserDTO UserDTO) {
-        User user = userRepository.findById(id)
+    public UserDTO updateUser(UserDTO userDTO) {
+        User user = userRepository.findById(userDTO.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        user.setUsername(UserDTO.getUsername());
-        user.setEmail(UserDTO.getEmail());
+        user.setUsername(userDTO.getUsername());
+        user.setEmail(userDTO.getEmail());
 
         return userMapper.toDto(userRepository.save(user));
     }
@@ -56,19 +51,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserRegisterResponse registerUser(UserRegisterRequest request) {
+    public UserDTO registerUser(UserDTO request) {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setPassword(request.getPassword());
 
         User saved = userRepository.save(user);
-
-        UserRegisterResponse response = new UserRegisterResponse();
-        response.setId(saved.getId());
-        response.setUsername(saved.getUsername());
-        response.setEmail(saved.getEmail());
-
-        return response;
+        return userMapper.toDto(saved);
     }
 }

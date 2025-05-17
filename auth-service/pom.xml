@@ -13,6 +13,12 @@
     <artifactId>auth-service</artifactId>
 
     <dependencies>
+        <!-- Config -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+
         <!-- Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -64,10 +70,30 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Hibernate Envers -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-envers</artifactId>
             <version>6.6.1.Final</version>
+        </dependency>
+
+        <!-- Eureka Client -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+        <!-- Open Feign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>com.erayunal</groupId>
+            <artifactId>common-lib</artifactId>
+            <version>${common.lib.version}</version>
         </dependency>
     </dependencies>
 

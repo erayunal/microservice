@@ -1,0 +1,21 @@
+server:
+  port: 8888
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.config: INFO
+    org.springframework.boot: INFO
+    org.springframework.web: INFO
+    org.springframework.cloud.config.server: INFO
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config, file:./config

@@ -2,12 +2,12 @@ package com.erayunal;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.cloud.config.server.EnableConfigServer;
 
 @SpringBootApplication
-@EnableFeignClients
-public class UserServiceApplication {
+@EnableConfigServer
+public class ConfigServerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(UserServiceApplication.class, args);
+        SpringApplication.run(ConfigServerApplication.class, args);
     }
 }
